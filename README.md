@@ -1,1 +1,15 @@
-# django_workshop
+# django_workshop content
+- Django web framework
+- Enviroment
+- First Project
+- First app
+- Let's go! 
+- Models
+- Admin site
+- urls
+- views
+- template tags {{}}
+- template tags {%block }
+- List objects
+- First form 
+- Save form
