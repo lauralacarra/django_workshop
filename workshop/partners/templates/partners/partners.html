@@ -1,0 +1,8 @@
+{% extends 'partners/base.html' %}
+{% block content %}
+    <h1>Partners</h1>
+    {% for partner in partners %}
+            <h5><a href="{% url 'partner_edit' partner.id %}">{{ partner.name }} {{partner.lastname}}</a></h5>
+    {% endfor %}
+ {% endblock content %}
+

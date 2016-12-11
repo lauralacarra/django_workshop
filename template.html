@@ -22,9 +22,9 @@
 <section>
     <h3>Create django env</h3>
     <p>python3 -m venv myenv</br>
-       or</br>
-       $python3 -m venv --without-pip myenv</br>
-       $source envreports/bin/activate</br>
+       </br>
+       </br>
+       $source myenv/bin/activate</br>
     </p>
 </section>
 
@@ -38,6 +38,9 @@
     <h3>Create requirements.txt</h3>
     <p>
        django==1.9</br>
+       <br>
+       Try!! <br>
+        $pip install -r requirements.txt<br>
     </p>
 </section>
 
@@ -62,7 +65,7 @@
 <section>
     <h3>Check your site!</h3>
     <p>
-      <a href="http://localhost:8000/">http://localhost:8000/admin</a></br>
+      <a href="http://localhost:8000/">http://localhost:8000</a></br>
     </p>
 </section>
 
@@ -75,7 +78,14 @@
 <section>
     <h3>settings.py</h3>
     <p>
-      #INSTALLED_APPS we add partners</br>
+      #INSTALLED_APPS<br>add partners</br>
+    </p>
+</section>
+<section>
+    <h3>settings.py</h3>
+    <p>
+      #Set time zone</br>
+      TIME_ZONE = 'Europe/Berlin'<br>
     </p>
 </section>
 <section>
@@ -84,27 +94,22 @@
     </figure>
 </section>
 <section>
-    <h3>My first model</h3>
-    <p class="file_title">forms.py</p>
+    <h3>My first model in partners/models.py</h3>
+    <p class="file_title">models.py</p>
     <p class="code">from django.db import models</br>
       from django.utils import timezone</br>
 </br>
       # Create your models here.</br>
       class Partner(models.Model):</br>
-      &nbsp;&nbsp;&nbsp;&nbsp;dni = models.CharField(max_length=9, null=False)</br>
       &nbsp;&nbsp;&nbsp;&nbsp;email = models.EmailField(max_length=200, null=False)</br>
       &nbsp;&nbsp;&nbsp;&nbsp;name = models.CharField(max_length=200, null=False)</br>
       &nbsp;&nbsp;&nbsp;&nbsp;lastname = models.CharField(max_length=200, null=False)</br>
       &nbsp;&nbsp;&nbsp;&nbsp;address = models.CharField(max_length=200, null=False)</br>
       &nbsp;&nbsp;&nbsp;&nbsp;city = models.CharField(max_length=50, null=False)</br>
-      &nbsp;&nbsp;&nbsp;&nbsp;state = models.CharField(max_length=100, null=False)</br>
-      &nbsp;&nbsp;&nbsp;&nbsp;country = models.CharField(max_length=100, null=False)</br>
-      &nbsp;&nbsp;&nbsp;&nbsp;postal_code = models.CharField(max_length=5, null=False)</br>
       &nbsp;&nbsp;&nbsp;&nbsp;created_date = models.DateTimeField(default=timezone.now)</br>
        </br>
     </p>
 </section>
-
 <section>
     <h3>Set the data base</h3>
     <p>
@@ -112,21 +117,18 @@
       $python3 manage.py migrate</br>
     </p>
 </section>
-
-
 <section>
     <h3>Set the model in admin</h3>
     <p>
-      admin.site.register(partners)</br>
+      admin.site.register(Partner)</br>
     </p>
-</section>
-
-
-<section>
-    <h3>Set the model in admin</h3>
-    <p>
-      admin.site.register(partners)</br>
-    </p>
+    <p class="code">
+    from django.contrib import admin<br>
+    from .models import Partner<br>
+<br>
+    # Register your models here.<br>
+    admin.site.register(Partner)<br>
+    <br>
 </section>
 
 
@@ -146,119 +148,396 @@
 <section>
     <h3>Add this in urls.py of main folder</h3>
     <p>  
-      url(r'', include('reports.urls')),</br>
+      url(r'', include('partners.urls')),</br>
     </p>
+</section>
+<section>
+    <h3>urls.py</h3>
+    <p class="code">  
+    from django.conf.urls import url<mark>, include</mark><br>
+    from django.contrib import admin<br>
+<br>
+    urlpatterns = [<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    url(r'^admin/', admin.site.urls),<br>
+    <mark>&nbsp;&nbsp;&nbsp;&nbsp;    url(r'', include('partners.urls')),</mark><br>
+    ]<br>
+    </p>
+</section>
+<section>
+  <blockquote>
+    ImportError: No module named 'partners.urls'
+  </blockquote>
 </section>
 
 <section>
     <h3>Create partners/urls.py</h3>
     <p class="code"> 
-      from django.conf.urls import include, url<br>
+      from django.conf.urls import url<br>
       from . import views<br>
       <br>
       urlpatterns = [<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;url(r'^$',views.partners_list),<br>
-      ]<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;url(r'^$', views.partners_list, name="partners"),<br>
+      ]<br><br>
     </p>
+</section>
+<section>
+  <blockquote>
+    AttributeError: module 'partners.views' has no attribute 'partners_list'
+  </blockquote>
 </section>
 <section>
     <h3>Create def partners_list in partners/view.py</h3>
     <p class="code"> 
-      def launch_list(request):<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;return render(request, 'reports/partners_list.html', {})<br>
+    from django.shortcuts import render<br>
+    <br><br>
+
+# Create your views here.<br>
+      <mark>def partners_list(request):<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;return render(request, 'partners/partners.html', {})
+      </mark>
+      <br>
       <br>
     </p>
 </section>
+<section>
+  <blockquote>
+    django.template.exceptions.TemplateDoesNotExist: partners/partners.html
+  </blockquote>
+</section>
+
+
 
 <section>
-    <h3>Create folder templates/partners</h3>
-    <p>Create file partners_list.htlm
+    <h3>Create folder partners/templates/partners</h3>
+    <p>Create file partners.html
     </p>
 </section>
 <section>
-    <h3>Create folder static</h3>
-    <p>Create folders css, img, js, all you need and set it!
+    <h3>Check your site!</h3>
+    <p>
+      <a href="http://localhost:8000/">http://localhost:8000</a></br>
     </p>
 </section>
 <section>
-    <h3>partners.htlm</h3>
-    <p>Set in first line {% load static %}<br>
-    <p>Change references to static href="{% static 'reports/css/animate.css' %}"<br>
-      <b>EXAMPLE</b><br>
-      < link rel="stylesheet" href="{% static 'reports/css/animate.css' %}"><br>
+    <h3>Create folder partners/static</h3>
+    <p>Copy from bow folder (at github) css, fonts, images, js, sass into static
     </p>
+    <p>Copy from bow folder partners_list.html
+    </p>
+</section>
+<section>
+    <h3>Check your site!</h3>
+    <p>
+      <a href="http://localhost:8000/">http://localhost:8000</a></br>
+    </p>
+</section>
+<section>
+    <h3>partners.html</h3>
+    <p>Copy from github django_workshop/init/templates/partners/partners.html<br>
+</section>
+<section>
+    <h3>partners.html</h3>
+    <p class="code">< !-- All references have changed to static.--><br>
+    < !-- Before <br>
+    < script src="js/jquery.min.js"></ script><br>
+    --><br>
+    < !-- After --> <br>
+    < script src="{% static 'js/jquery.min.js' %}"></ script><br>
 </section>
 <section>
     <h3>Our first Query Set</h3>
     <p>Get the partners list<br>
+    partners/views.py<br>      
     <p class="code">
-    # Create your views here.
+    from django.shortcuts import render<br>
+    <mark>from .models import Partner</mark><br>
+    <br>
+    # Create your views here.<br>
 def partners_list(request):<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;partners = Partner.objects.order_by('name')<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;return render(request, 'partners/partners.html', {'partners': partners})<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<mark>partners = Partner.objects.order_by('name')</mark><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;return render(request, 'partners/partners.html', <mark>{'partners': partners})</mark><br>
      </p>
 </section>
 <section>
-    <h3>Play with the list {{ partners }}</h3>
-    <p class="code">{{ partners }} <br>
+    <h3>Query Sets (Work at home!)</h3>
+    <p><a href="https://docs.djangoproject.com/en/1.10/ref/models/querysets/#methods-that-return-new-querysets">Query sets</a><p>
+</section>
+<section>
+    <h3>Show partners</h3>
+    <p>partners.html<br>
     <p class="code"> {% for partner in partners %}<br>
       &nbsp;&nbsp;&nbsp;&nbsp;< h5>{{ partner.name }} {{partner.lastname}}< /h5><br>
       {% endfor %}<br>
      </p>
 </section>
 <section>
-    <h3>Create base.htlm</h3>
-    <p>Leave the header and footer and replace the main body with</p>
+    <h3>Play with template times (work at home!)</h3>
+    <p>partners.html<br>
+    <a href="https://docs.djangoproject.com/en/1.10/ref/templates/builtins/#for">For</a><br>
+    <a href="https://docs.djangoproject.com/en/1.10/ref/templates/builtins/#if">If</a><br>
+    <a href="https://docs.djangoproject.com/en/1.10/ref/templates/builtins/#ifchanged">Ifchanged</a><br>
+    <a href="https://docs.djangoproject.com/en/1.10/ref/templates/builtins/#now">Now</a><br>
+    <a href="https://docs.djangoproject.com/en/1.10/ref/templates/builtins/#lorem">Lorem</a>
+     </p><br>
+</section>
+<section>
+    <h3>Create base.html</h3>
+    <p>Leave the header and footer and replace the main body with of partners.html</p>
       <p class="code">{% block content %}<br>
       {% endblock %}<br>
      </p>
 </section>
 <section>
-    <h3>Even more incrementals</h3>
-    <p>
-      <span class="next" next-order="3">They</span>
-      <span class="next" next-order="5">can</span>
-      <span class="next" next-order="2">even</span>
-      <span class="next" next-order="1">appear</span>
-      <span class="next" next-order="7">in</span>
-      <span class="next" next-order="4">any</span>
-      <span class="next" next-order="6">order</span>
-      <span class="next" next-order="8">!</span>
-    </p>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/basehtml.png">
+    </figure>
 </section>
-
 <section>
-  <blockquote>
-    Who's brave enough to fly into something we all keep calling a death sphere?
-  </blockquote>
-  <details>
-    <p>In the onstage shell, notes scroll rather than overflow:</p>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla ac dui eu est feugiat lacinia sit amet nec leo. Mauris eu ipsum leo. Nulla mi odio, cursus sed sollicitudin non, fringilla id magna. Suspendisse sit amet posuere elit. Maecenas iaculis, turpis a placerat imperdiet, libero lorem feugiat nisi, nec tincidunt diam nibh sit amet massa. Vestibulum quis adipiscing tellus. Maecenas sollicitudin sodales pulvinar. Donec dui ipsum, bibendum facilisis consequat interdum, tempus ut mauris. Aliquam ut dolor nec odio scelerisque bibendum quis in neque. Aliquam dui dui, pulvinar quis fermentum quis, gravida eu augue. Nunc tristique dolor a urna pulvinar bibendum. Curabitur mollis cursus neque, in scelerisque metus porta non. Donec tempor enim in nibh vestibulum et convallis nisi malesuada. Duis ut lectus sed metus venenatis porttitor id pharetra quam. Suspendisse sapien turpis, ornare in molestie et, gravida eget turpis.
-    </p>
-  </details>
-</section>
-
-<section>
-    <h1>Part two</h1>
-</section>
-
+    <h3>Set the main body into partners.html</h3>
+      <p>Delete all content<br>
+      Put {% extends 'partners/base.html' %} on the top</p><br>
+       <p class="code"><br>
+       {% extends 'partners/base.html' %}<br>
+        {% block content %}<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;< h1>Partners</h1><br>
+         &nbsp;&nbsp;&nbsp;&nbsp;{% for partner in partners %}<br>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< h5>< a href="">{{ partner.name }} {{partner.lastname}}</ a></ h5><br>
+         &nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}<br>
+         {% endblock content %}<br>
+     </p>
+    </section>
 <section>
     <figure> <!-- Figures are used to display images and videos fullpage -->
-      <img src="http://placekitten.com/g/800/600">
-      <figcaption>An image</figcaption>
+      <img src="img/partners.png">
     </figure>
-    <div role="note">Kittens are so cute!</div>
+</section>
+<section>
+    <h3>Create partners/forms.py</h3>
+    <p class="code">
+      from django import forms<br>
+      from .models import Partner<br>
+<br>
+<br>
+      class PartnerForm(forms.ModelForm):<br>
+<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;class Meta:<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;model = Partner<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exclude = ('created_date', )<br>
+    </p>
+</section>
+<section>
+    <h3>Create partners/templates/partner_edit.html</h3>
+    <p><a href="https://docs.djangoproject.com/en/1.10/topics/forms/#form-rendering-options">See rendering forms</a></p>
+      <p class="code">
+      {% extends 'partners/base.html' %}<br>
+      {% block content %}<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;< h1>New partner</h1>
+      &nbsp;&nbsp;&nbsp;&nbsp;< form method="POST">{% csrf_token %} 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ form.as_p }}
+     &nbsp;&nbsp;&nbsp;&nbsp;< div class="form-group">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< input type="submit" value="Save" class="btn btn-primary">
+    &nbsp;&nbsp;&nbsp;&nbsp;</ div>
+      {% endblock content %}<br>
+  <br>
+     </p>
+</section>
+<section>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/partneredit1.png">
+    </figure>
+</section>
+<section>
+    <h3>Change partners/urls.py</h3>
+      <p class="code">
+      from django.conf.urls import url<br>
+      from . import views<br>
+      <br>
+      urlpatterns = [<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;url(r'^<mark>partners/</mark>$', views.partners_list, name='partners'),<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<mark>url(r'^partners/new$', views.partner_new, name='partner_new')<br></mark>
+      ]<br>
+     </p>
 </section>
 
 <section>
-    <figure> <!-- Videos are automatically played -->
-      <video src="http://videos-cdn.mozilla.net/brand/Mozilla_Firefox_Manifesto_v0.2_640.webm" poster="http://www.mozilla.org/images/about/poster.jpg"></video>
-      <figcaption>A video</figcaption>
+    <h3>Check your site!</h3>
+    <p>
+      <a href="http://localhost:8000/">http://localhost:8000</a></br>
+      <a href="http://localhost:8000/partners">http://localhost:8000/partners</a></br>
+    </p>
+</section>
+<section>
+  <blockquote>
+    AttributeError: module 'partners.views' has no attribute 'partner_new'
+  </blockquote>
+</section>
+<section>
+    <h3>Create def partner_new in partners/view.py</h3>
+    <p class="code"> 
+    from django.shortcuts import render<mark>, redirect</mark><br>
+from .models import Partner<br>
+<mark>from .forms import PartnerForm<br></mark>
+<mark>from django.utils import timezone<br></mark>
+<br>
+<br>
+def partners_list(request):<br>
+    ...<br>
+<br>
+<br>
+<mark>def partners_new(request):<br>
+&nbsp;&nbsp;&nbsp;&nbsp;    form = PartnerForm()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;    if request.method == 'POST':<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        form = PartnerForm(request.POST)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        if form.is_valid():<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;           post = form.save(commit=False)<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;           post.created_date = timezone.now()<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;           post.save()<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;           return redirect('partners.views.partners_list')<br>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   return render(request, 'partners/partner_edit.html', {'form': form})<br>
+      <br></mark>
+    </p>
+</section>
+<section>
+    <h3>Add link to "New partner"</h3>
+    <p>base.html</p>
+    <p class="code">
+    < !-- Set into href of New partner--><br>
+    {% url 'partner_new' %}<br>
+    </p>
+</section>
+<section>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/partnernewhref.png">
     </figure>
 </section>
-
 <section>
-    <h1>End!</h1>
+    <h3>Create a new partner</h3>
+    <p>
+      <a href="http://localhost:8000/partners">http://localhost:8000/partners</a></br>
+      or<br>
+      <a href="http://localhost:8000/partners/new">http://localhost:8000/partners/new</a></br>
+    </p>
+</section>
+<section>
+    <h3>Create def partner_edit in partners/view.py</h3>
+    <p class="code">
+    from django.shortcuts import render, redirect<mark>, get_object_or_404</mark><br>
+    ...
+    <br>
+    <br>
+    def partners_list(request):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    ...<br>
+        <br>
+        <br>
+    def partner_new(request):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    ...<br>
+        <br>
+        <br>
+    <mark>def partner_edit(request, pk):<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    partner = get_object_or_404(Partner, pk=pk)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    if request.method == "POST":<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;        form = PartnerForm(request.POST, instance=partner)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        if form.is_valid():<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;            partner = form.save()<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;            return redirect('partners.views.partners_list')<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   else:<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        form = PartnerForm(instance=partner)<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    return render(request, 'partners/partner_edit.html', {'form': form})<br>
+    </mark>    <br>
+    </p>
+</section>
+<section>
+    <h3>Add link to "Edit partner"</h3>
+    <p>partners.html</p>
+    <p class="code">
+    < !-- Set into href of list partners--><br>
+    {% url 'partner_edit' partner.id %}<br>
+    </p>
+</section>
+<section>
+    <h3>Change urls.py</h3>
+    <p class="code">
+    from django.conf.urls import url<br>
+    from . import views<br>
+    <br>
+    urlpatterns = [<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    url(r'^partners/$', views.partners_list, name='partners'),<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    url(r'^partners/new$', views.partner_new, name='partner_new'),<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<mark>url(r'^partners/edit$', views.partner_edit, name='partner_edit'),</mark><br>
+    ]<br>
+    </p>
+</section>
+<section>
+  <blockquote>
+    django.core.urlresolvers.NoReverseMatch: Reverse for 'partner_edit' with arguments '(2,)' and keyword arguments '{}' not found. 1 pattern(s) tried: ['partners/edit$']
+  </blockquote>
+</section>
+<section>
+    <h3>Change urls.py</h3>
+    <p class="code">
+    from django.conf.urls import url<br>
+    from . import views<br>
+    <br>
+    urlpatterns = [<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    url(r'^partners/$', views.partners_list, name='partners'),<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;    url(r'^partners/new$', views.partner_new, name='partner_new'),<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;<mark>url(r'^partners/edit/(?P<pk>[0-9]+)/$', views.partner_edit, name='partner_edit'),</mark><br>
+    ]<br>
+    </p>
+</section>
+<section>
+  <blockquote>
+    django.core.urlresolvers.NoReverseMatch: Reverse for 'partner_edit' with arguments '(2,)' and keyword arguments '{}' not found. 1 pattern(s) tried: ['partners/edit$']
+  </blockquote>
+</section>
+<section>
+    <h3>Check edit!</h3>
+    <p>
+      <a href="http://localhost:8000/partners">http://localhost:8000/partners</a></br>
+    </p>
+</section>
+<section>
+    <h3>Add link to "Home"</h3>
+    <p>base.html</p>
+    <p class="code">
+    < !-- Set into href home --><br>
+    {% url 'partners' %}<br>
+    </p>
+</section>
+<section>
+  <h3>Make your form pretty</h3>
+  <p><a href="https://docs.djangoproject.com/en/1.10/topics/forms/#looping-over-the-form-s-fields">Looping over the form fields</a>
+  <br>
+  <a href="https://github.com/kmike/django-widget-tweaks">django-widget-tweaks</a>
+  </p> 
+</section>
+<section>
+    <h3>Home work</h3>
+    <p>
+      <span><a href="https://docs.djangoproject.com/en/1.10/topics/testing/overview/">Do test</a></span><br>
+      <span><a href="https://tutorial.djangogirls.org/es/deploy/">Deploy!</a></span><br>
+      <span><a href="https://docs.djangoproject.com/en/1.10/ref/models/instances/#deleting-objects">Create delete button</span></a><br>
+      <span><a href="https://docs.djangoproject.com/es/1.9/topics/forms/modelforms/#a-full-example">Create more model</span></a><br>
+      <span><a href="https://thinkster.io/django-angularjs-tutorial">If you know Angular... </a></span><br>
+    </p>
+</section>
+<section>
+    <h3>Docs</h3>
+    <p>
+      <span><a href="https://tutorial.djangogirls.org/es/">Django girls tutorial</a></span><br>
+      <span><a href="https://docs.djangoproject.com/en/1.10/">Django documentation</a></span><br>
+      <span><a href="http://djangobook.com/">Django book</a></span><br>
+      <span><a href="https://www.twoscoopspress.com/products/two-scoops-of-django-1-8">Two Scoops of Django: Best Practices for Django 1.8</a></span><br>
+      </p>
+</section>
+<section>
+    <h3>Thank you!</h3>
+    <p>
+       <span>Thanks <a href="https://twitter.com/yamila_moreno">Yamila</a> & <a href="https://twitter.com/Laura_Morillo">Laura Morillo</a></span><br><br>
+       <span><a href="http://www.meetup.com/es/Madrid-Python-Meetup/messages/79235013/?chapter_analytics_code=UA-5340683-12&messageId=79235013">Thanks python learn madrid</a>. Specially <a href="https://twitter.com/bameda">@bameda</a></span><br>
+       <br>
+       <span><a href="https://twitter.com/lauralacarra">Laura Lacarra</a></span><br>
+    </p>
 </section>
 
 <!-- Your Style -->
@@ -345,7 +624,7 @@ def partners_list(request):<br>
   .code {
     margin: 20px 75px 0 75px;
     font-size: 1rem;
-    font-family: console;
+    font-family: Consolas;
   }
   table {
     margin: auto;

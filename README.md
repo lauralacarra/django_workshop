@@ -3,13 +3,14 @@
 - Enviroment
 - First Project
 - First app
-- Let's go! 
 - Models
 - Admin site
 - urls
 - views
 - template tags {{}}
+- Query Sets
 - template tags {%block }
-- List objects
-- First form 
-- Save form
+- Form new
+- Form edit
+- Next steps
+- Credits
