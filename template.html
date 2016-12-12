@@ -51,7 +51,7 @@
     </p>
 </section>
 <section>
-    <h3>Init first <mark>app</mark></h3>
+    <h3>Init first app</h3>
     <p>
        $python3 manage.py startapp partners</br>
     </p>
@@ -68,6 +68,11 @@
       <a href="http://localhost:8000/">http://localhost:8000</a></br>
     </p>
 </section>
+<section>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/itworked.png" >
+    </figure>
+</section>
 
 <section>
     <h3>Runserver (more options)</h3>
@@ -82,16 +87,16 @@
     </p>
 </section>
 <section>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/setting_INSTALLED_APPS.png">
+    </figure>
+</section>
+<section>
     <h3>settings.py</h3>
     <p>
       #Set time zone</br>
       TIME_ZONE = 'Europe/Berlin'<br>
     </p>
-</section>
-<section>
-    <figure> <!-- Figures are used to display images and videos fullpage -->
-      <img src="img/setting_INSTALLED_APPS.png">
-    </figure>
 </section>
 <section>
     <h3>My first model in partners/models.py</h3>
@@ -108,6 +113,12 @@
       &nbsp;&nbsp;&nbsp;&nbsp;city = models.CharField(max_length=50, null=False)</br>
       &nbsp;&nbsp;&nbsp;&nbsp;created_date = models.DateTimeField(default=timezone.now)</br>
        </br>
+    </p>
+</section>
+<section>
+    <h3>Model field types</h3>
+    <p>
+      <a href="https://docs.djangoproject.com/en/1.10/ref/models/fields/#model-field-types">Lots of options!</a><br>
     </p>
 </section>
 <section>
@@ -130,8 +141,6 @@
     admin.site.register(Partner)<br>
     <br>
 </section>
-
-
 <section>
     <h3>Create a user in admin</h3>
     <p>
@@ -141,6 +150,12 @@
 
 <section>
     <h3>Check you admin site!</h3>
+    <p>
+      <a href="http://localhost:8000/admin">http://localhost:8000/admin</a></br>
+    </p>
+</section>
+<section>
+    <h3>Create a partner in admin site</h3>
     <p>
       <a href="http://localhost:8000/admin">http://localhost:8000/admin</a></br>
     </p>
@@ -209,7 +224,7 @@
 
 <section>
     <h3>Create folder partners/templates/partners</h3>
-    <p>Create file partners.html
+    <p>Create empty file partners.html
     </p>
 </section>
 <section>
@@ -217,12 +232,20 @@
     <p>
       <a href="http://localhost:8000/">http://localhost:8000</a></br>
     </p>
+</section>
+<section>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/empty.png" >
+    </figure>
 </section>
 <section>
     <h3>Create folder partners/static</h3>
-    <p>Copy from bow folder (at github) css, fonts, images, js, sass into static
+    <p>Copy from <i>init</i> all folders <a href="https://github.com/lauralacarra/django_workshop/tree/master/init/static">(see here at github)</a><br> css, fonts, images, js, sass<br><u>into new folder partners/static</u>
     </p>
-    <p>Copy from bow folder partners_list.html
+</section>
+<section>
+    <h3>Partners.html</h3>
+    <p>Replace from <i>init</i>   <a href="https://github.com/lauralacarra/django_workshop/tree/master/init/templates/partners">(see here at github)</a><br> the file templates/partners/partners.html <br><u>into file partners/templates/partners/partners.html</u>  
     </p>
 </section>
 <section>
@@ -232,8 +255,9 @@
     </p>
 </section>
 <section>
-    <h3>partners.html</h3>
-    <p>Copy from github django_workshop/init/templates/partners/partners.html<br>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/partnershtml.png">
+    </figure>
 </section>
 <section>
     <h3>partners.html</h3>
@@ -281,8 +305,9 @@ def partners_list(request):<br>
      </p><br>
 </section>
 <section>
-    <h3>Create base.html</h3>
-    <p>Leave the header and footer and replace the main body with of partners.html</p>
+    <h3>Copy partners.html to base.html</h3>
+    <p>At base.html:<br>
+    Leave the header and footer and replace the main body {% block ... %}</p>
       <p class="code">{% block content %}<br>
       {% endblock %}<br>
      </p>
@@ -294,7 +319,7 @@ def partners_list(request):<br>
 </section>
 <section>
     <h3>Set the main body into partners.html</h3>
-      <p>Delete all content<br>
+      <p>Delete all content except the body<br>
       Put {% extends 'partners/base.html' %} on the top</p><br>
        <p class="code"><br>
        {% extends 'partners/base.html' %}<br>
@@ -309,6 +334,17 @@ def partners_list(request):<br>
 <section>
     <figure> <!-- Figures are used to display images and videos fullpage -->
       <img src="img/partners.png">
+    </figure>
+</section>
+<section>
+    <h3>Check your site!</h3>
+    <p>
+      <a href="http://localhost:8000/">http://localhost:8000</a></br>
+    </p>
+</section>
+<section>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/onepartner.png">
     </figure>
 </section>
 <section>
@@ -331,20 +367,15 @@ def partners_list(request):<br>
       <p class="code">
       {% extends 'partners/base.html' %}<br>
       {% block content %}<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;< h1>New partner</h1>
-      &nbsp;&nbsp;&nbsp;&nbsp;< form method="POST">{% csrf_token %} 
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ form.as_p }}
-     &nbsp;&nbsp;&nbsp;&nbsp;< div class="form-group">
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< input type="submit" value="Save" class="btn btn-primary">
-    &nbsp;&nbsp;&nbsp;&nbsp;</ div>
+      &nbsp;&nbsp;&nbsp;&nbsp;< h1>Partner</h1><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;< form method="POST">{% csrf_token %} <br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ form.as_p }}<br>
+     &nbsp;&nbsp;&nbsp;&nbsp;< div class="form-group"><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;< input type="submit" value="Save" class="btn btn-primary"><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;</ div><br>
       {% endblock content %}<br>
   <br>
      </p>
-</section>
-<section>
-    <figure> <!-- Figures are used to display images and videos fullpage -->
-      <img src="img/partneredit1.png">
-    </figure>
 </section>
 <section>
     <h3>Change partners/urls.py</h3>
@@ -397,25 +428,32 @@ def partners_list(request):<br>
       <br></mark>
     </p>
 </section>
-<section>
-    <h3>Add link to "New partner"</h3>
-    <p>base.html</p>
-    <p class="code">
-    < !-- Set into href of New partner--><br>
-    {% url 'partner_new' %}<br>
-    </p>
-</section>
-<section>
-    <figure> <!-- Figures are used to display images and videos fullpage -->
-      <img src="img/partnernewhref.png">
-    </figure>
-</section>
+
+
 <section>
     <h3>Create a new partner</h3>
     <p>
       <a href="http://localhost:8000/partners">http://localhost:8000/partners</a></br>
       or<br>
       <a href="http://localhost:8000/partners/new">http://localhost:8000/partners/new</a></br>
+    </p>
+</section>
+<section>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/formnew.png">
+    </figure>
+</section>
+<section>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/finish.png">
+    </figure>
+</section>
+<section>
+    <h3>Add link to "New partner"</h3>
+    <p>base.html</p>
+    <p class="code">
+    < !-- Set into href of New partner--><br>
+    {% url 'partner_new' %}<br>
     </p>
 </section>
 <section>
@@ -486,18 +524,23 @@ def partners_list(request):<br>
     </p>
 </section>
 <section>
-  <blockquote>
-    django.core.urlresolvers.NoReverseMatch: Reverse for 'partner_edit' with arguments '(2,)' and keyword arguments '{}' not found. 1 pattern(s) tried: ['partners/edit$']
-  </blockquote>
-</section>
-<section>
     <h3>Check edit!</h3>
     <p>
       <a href="http://localhost:8000/partners">http://localhost:8000/partners</a></br>
     </p>
 </section>
 <section>
-    <h3>Add link to "Home"</h3>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/formedit.png">
+    </figure>
+</section>
+<section>
+    <figure> <!-- Figures are used to display images and videos fullpage -->
+      <img src="img/finish.png">
+    </figure>
+</section>
+<section>
+    <h3>Finish! Add link to "Home"</h3>
     <p>base.html</p>
     <p class="code">
     < !-- Set into href home --><br>
